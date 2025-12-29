@@ -1,301 +1,559 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的导航页</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>IP地址查询工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-image: url('http://files.unn.pp.ua/download/pictures%2Fbackground.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
             color: #333;
-        }
-        
-        .header {
-            color: #fff;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-        }
-        
-        .search-container {
-            padding: 3rem;
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto 20px;
-        }
-        
-        .search-box {
-            width: 100%;
-            padding: 15px 18px;
-            font-size: 20px;
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            outline: none;
-            background-color: rgba(255, 255, 255, 0.7);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 12px;
-        }
-        
-        .link-item {
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 15px;
-            padding: 12px;
-            transition: all 0.2s;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            height: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .link-item:hover {
-            background-color: rgba(255, 255, 255, 0.85);
-            transform: translateY(-2px);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-        }
-        
-        .link-item a {
-            text-decoration: none;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             width: 100%;
-            height: 100%;
-            justify-content: center;
+            max-width: 900px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin: 20px;
         }
         
-        .link-icon {
-            width: 24px;
-            height: 24px;
+        header {
+            background: linear-gradient(to right, #3f51b5, #5c6bc0);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
             margin-bottom: 8px;
-            object-fit: contain;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         
-        .link-text {
-            font-size: 14px;
-            text-align: center;
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .ip-input-section {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: #3f51b5;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            border-color: #5c6bc0;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.2);
+        }
+        
+        button {
+            background: #3f51b5;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            background: #5c6bc0;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: #757de8;
+        }
+        
+        .btn-secondary:hover {
+            background: #9fa8da;
+        }
+        
+        .button-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .ip-display {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 2px solid #e0e0e0;
+            display: none;
+        }
+        
+        .ip-display.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .ip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .ip-address {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #3f51b5;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            background: #4caf50;
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+        
+        .copy-btn:hover {
+            background: #66bb6a;
+        }
+        
+        .ip-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .detail-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3f51b5;
+        }
+        
+        .detail-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
             word-break: break-word;
-            max-width: 100%;
         }
-        .foot_marker {
-            position: fixed;
-            bottom: 10px;
-            left: 0;
-            right: 0;
-            width: 100%;
+        
+        .loader {
+            display: none;
             text-align: center;
-            font-size: 12px;
-            color: rgba(255,255,255,0.8);
-            z-index: 999;
-            padding: 10px 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+            padding: 30px;
         }
-
-        .foot_marker a {
-            color: rgba(255,255,255,0.8);
+        
+        .loader.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3f51b5;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .error-message.active {
+            display: block;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+        
+        footer a {
+            color: #c5cae9;
             text-decoration: none;
-            transition: color 0.3s ease;
-            padding: 5px 10px;
-            border-radius: 15px;
         }
-
-        .foot_marker a:hover {
-            color: #4388e0;
-        }        
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .note {
+            background: #e8eaf6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .button-row {
+                flex-direction: column;
+            }
+            
+            .ip-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .ip-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 1.7rem;
+            }
+            
+            .main-content {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="search-container">
-        <form action="https://www.google.com/search" method="get" target="_blank">
-            <input class="search-box" type="text" name="q" placeholder="Google 搜索...">
-        </form>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-globe-americas"></i> IP地址查询工具</h1>
+            <p class="subtitle">快速查询IP地址的详细信息，包括地理位置、网络运营商等</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="ip-input-section">
+                <h2 class="section-title"><i class="fas fa-search"></i> IP地址查询</h2>
+                <div class="input-group">
+                    <input type="text" id="ipInput" placeholder="输入要查询的IP地址 (留空查询本机IP)">
+                </div>
+                
+                <div class="button-row">
+                    <button id="queryBtn">
+                        <i class="fas fa-search"></i> 查询IP地址
+                    </button>
+                    <button id="myIpBtn" class="btn-secondary">
+                        <i class="fas fa-location-arrow"></i> 查询本机IP
+                    </button>
+                    <button id="clearBtn" class="btn-secondary">
+                        <i class="fas fa-redo"></i> 清空结果
+                    </button>
+                </div>
+                
+                <div class="note">
+                    <p><i class="fas fa-info-circle"></i> 提示：IP地址查询服务由第三方API提供，查询结果仅供参考。本工具不存储任何查询记录。</p>
+                </div>
+            </div>
+            
+            <div class="loader" id="loader">
+                <div class="spinner"></div>
+                <p>正在查询IP地址信息，请稍候...</p>
+            </div>
+            
+            <div class="error-message" id="errorMessage">
+                <p><i class="fas fa-exclamation-triangle"></i> <span id="errorText"></span></p>
+            </div>
+            
+            <div class="ip-display" id="ipDisplay">
+                <div class="ip-header">
+                    <div class="ip-address" id="displayIp">-</div>
+                    <button class="copy-btn" id="copyBtn">
+                        <i class="far fa-copy"></i> 复制信息
+                    </button>
+                </div>
+                
+                <div class="ip-details" id="ipDetails">
+                    <!-- IP详细信息将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
     </div>
     
-    <div class="container">
-        <!-- 第一行 -->
-        <div class="link-item">
-            <a href="https://www.google.com" target="_blank">
-                <img class="link-icon" src="https://www.google.com/favicon.ico" alt="Google">
-                <span class="link-text">Google</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://www.baidu.com" target="_blank">
-                <img class="link-icon" src="https://www.baidu.com/favicon.ico" alt="Baidu">
-                <span class="link-text">Baidu</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://www.youtube.com" target="_blank">
-                <img class="link-icon" src="https://www.youtube.com/favicon.ico" alt="YouTube">
-                <span class="link-text">Youtube</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://mail.google.com/mail/u/0/" target="_blank">
-                <img class="link-icon" src="https://mail.google.com/favicon.ico" alt="Gmail">
-                <span class="link-text">Gmail</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://github.com" target="_blank">
-                <img class="link-icon" src="https://github.com/favicon.ico" alt="GitHub">
-                <span class="link-text">GitHub</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://ip.sb" target="_blank">
-                <img class="link-icon" src="https://ip.sb/favicon.ico" alt="IP SB">
-                <span class="link-text">ip.sb</span>
-            </a>
-        </div>
-        
-        <!-- 第二行 -->
-        <div class="link-item">
-            <a href="https://dash.cloudflare.com" target="_blank">
-                <img class="link-icon" src="https://www.cloudflare.com/favicon.ico" alt="Cloudflare">
-                <span class="link-text">Cloudflare</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://chat.openai.com" target="_blank">
-                <img class="link-icon" src="https://chat.openai.com/favicon.ico" alt="ChatGPT">
-                <span class="link-text">Chatgpt</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://huggingface.co" target="_blank">
-                <img class="link-icon" src="https://huggingface.co/favicon.ico" alt="Hugging Face">
-                <span class="link-text">Huggingface</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://www.itdog.cn" target="_blank">
-                <i class="fas fa-network-wired link-icon"></i>
-                <span class="link-text">ITDOG - 在线ping</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://ping0.cc" target="_blank">
-                <i class="fas fa-database link-icon"></i>
-                <span class="link-text">Ping0</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="#" target="_blank">
-                <i class="fas fa-fingerprint link-icon"></i>
-                <span class="link-text">浏览器指纹</span>
-            </a>
-        </div>
-        
-        <!-- 第三行 -->
-        <div class="link-item">
-            <a href="https://ssss.nyc.mn" target="_blank">
-                <i class="fas fa-tachometer-alt link-icon"></i>
-                <span class="link-text">nezha面板</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://hoppscotch.io" target="_blank">
-                <img class="link-icon" src="https://discord.com/favicon.ico" alt="Discord">
-                <span class="link-text">Api测试</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://who.cx" target="_blank">
-                <i class="fas fa-globe link-icon"></i>
-                <span class="link-text">who.cx</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://www.domcomp.com" target="_blank">
-                <i class="fas fa-tags link-icon"></i>
-                <span class="link-text">域名比价</span>
-            </a>
-        </div>
-        
-        <div class="link-item">
-            <a href="https://www.nodeseek.com" target="_blank">
-                <i class="fas fa-server link-icon"></i>
-                <span class="link-text">NodeSeek</span>
-            </a>
-        </div>
-        <div class="link-item">
-            <a href="https://linux.do" target="_blank">
-                <i class="fab fa-linux link-icon"></i>
-                <span class="link-text">Linux do</span>
-            </a>
-        </div>
-        
-        <!-- 第四行 -->
-        <div class="link-item">
-            <a href="https://music.gvrander.eu.org" target="_blank">
-                <i class="fab fa-linux link-icon"></i>
-                <span class="link-text">在线音乐</span>
-            </a>           
-        </div>
-        <div class="link-item">
-            <a href="https://www.freereceivesms.com" target="_blank">
-                <i class="fab fa-linux link-icon"></i>
-                <span class="link-text">免费接码</span>
-            </a> 
-        </div>
-        <div class="link-item">
-            <a href="https://sublink.eooce.com" target="_blank">
-                <i class="fab fa-linux link-icon"></i>
-                <span class="link-text">订阅转换</span>
-            </a> 
-        </div>
-        <div class="link-item">
-            <a href="https://ssh.eooce.com" target="_blank">
-                <i class="fab fa-linux link-icon"></i>
-                <span class="link-text">webssh</span>
-            </a> 
-        </div>
-        <div class="link-item">
-            <a href="https://filebox.nnuu.nyc.mn" target="_blank">
-                <i class="fab fa-linux link-icon"></i>
-                <span class="link-text">文件快递柜</span>
-            </a> 
-        </div>
-        <div class="link-item">
-            <a href="https://address.nnuu.nyc.mn" target="_blank">
-                <i class="fab fa-linux link-icon"></i>
-                <span class="link-text">真实地址生成</span>
-            </a> 
-        </div>
-
-        <!-- 版权 -->
-        <div class="foot_marker">
-        <a href="https://github.com/eooce" target="_blank">Powered by eooce</a>
-    </div>
+    <footer>
+        <p>© 2023 IP地址查询工具 | 使用 <a href="https://ipapi.co/" target="_blank">ipapi.co</a> API | 仅供学习和参考使用</p>
+    </footer>
 
     <script>
-        document.querySelectorAll('.link-item:not(.empty)').forEach(item => {
-            const icon = item.querySelector('img.link-icon');
-            if (icon) {
-                icon.onerror = function() {
-                    this.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDJDNi40NzcgMiAyIDYuNDc3IDIgMTJzNC40NzcgMTAgMTAgMTAgMTAtNC40NzcgMTAtMTBTMTcuNTIzIDIgMTIgMnptMCAyYzQuNDE4IDAgOCAzLjU4MiA4IDhzLTMuNTgyIDgtOCA4LTgtMy41ODItOC04IDMuNTgyLTggOC04eiIgZmlsbD0iIzMzMyIvPjwvc3ZnPg==';
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const ipInput = document.getElementById('ipInput');
+            const queryBtn = document.getElementById('queryBtn');
+            const myIpBtn = document.getElementById('myIpBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const loader = document.getElementById('loader');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const ipDisplay = document.getElementById('ipDisplay');
+            const displayIp = document.getElementById('displayIp');
+            const ipDetails = document.getElementById('ipDetails');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            // API配置
+            const API_URL = 'https://ipapi.co';
+            
+            // 查询IP地址信息
+            async function queryIp(ip = '') {
+                // 显示加载动画
+                loader.classList.add('active');
+                errorMessage.classList.remove('active');
+                ipDisplay.classList.remove('active');
+                
+                try {
+                    let apiUrl = `${API_URL}/json`;
+                    if (ip) {
+                        apiUrl = `${API_URL}/${ip}/json`;
+                    }
+                    
+                    const response = await fetch(apiUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error(`API请求失败: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.error) {
+                        throw new Error(data.reason || '查询IP地址时发生错误');
+                    }
+                    
+                    // 显示结果
+                    displayResults(data);
+                    
+                } catch (error) {
+                    showError(error.message);
+                } finally {
+                    loader.classList.remove('active');
                 }
             }
+            
+            // 显示查询结果
+            function displayResults(data) {
+                displayIp.textContent = data.ip || '-';
+                
+                // 定义要显示的IP信息字段
+                const ipFields = [
+                    { label: 'IP版本', key: 'version', icon: 'fas fa-code' },
+                    { label: '城市', key: 'city', icon: 'fas fa-city' },
+                    { label: '地区', key: 'region', icon: 'fas fa-map' },
+                    { label: '国家', key: 'country_name', icon: 'fas fa-flag' },
+                    { label: '邮政编码', key: 'postal', icon: 'fas fa-mail-bulk' },
+                    { label: '经纬度', key: 'latlong', icon: 'fas fa-map-marker-alt', format: (d) => `${d.latitude}, ${d.longitude}` },
+                    { label: '时区', key: 'timezone', icon: 'fas fa-clock' },
+                    { label: '货币', key: 'currency', icon: 'fas fa-money-bill-wave' },
+                    { label: '语言', key: 'languages', icon: 'fas fa-language' },
+                    { label: '网络运营商', key: 'org', icon: 'fas fa-network-wired' },
+                    { label: 'ASN', key: 'asn', icon: 'fas fa-sitemap' },
+                    { label: '呼叫代码', key: 'country_calling_code', icon: 'fas fa-phone' }
+                ];
+                
+                // 生成HTML内容
+                let detailsHTML = '';
+                
+                ipFields.forEach(field => {
+                    let value = '-';
+                    
+                    if (field.key === 'latlong' && data.latitude && data.longitude) {
+                        value = field.format(data);
+                    } else if (data[field.key]) {
+                        value = data[field.key];
+                    }
+                    
+                    detailsHTML += `
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="${field.icon}"></i> ${field.label}
+                            </div>
+                            <div class="detail-value">${value}</div>
+                        </div>
+                    `;
+                });
+                
+                ipDetails.innerHTML = detailsHTML;
+                ipDisplay.classList.add('active');
+                
+                // 滚动到结果区域
+                ipDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
+            // 显示错误信息
+            function showError(message) {
+                errorText.textContent = message;
+                errorMessage.classList.add('active');
+                ipDisplay.classList.remove('active');
+            }
+            
+            // 复制IP信息到剪贴板
+            function copyIpInfo() {
+                const ip = displayIp.textContent;
+                const details = document.querySelectorAll('.detail-item');
+                
+                let textToCopy = `IP地址: ${ip}\n\n`;
+                
+                details.forEach(item => {
+                    const label = item.querySelector('.detail-label').textContent.trim();
+                    const value = item.querySelector('.detail-value').textContent.trim();
+                    textToCopy += `${label}: ${value}\n`;
+                });
+                
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        // 显示复制成功提示
+                        const originalText = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                        copyBtn.style.background = '#4caf50';
+                        
+                        setTimeout(() => {
+                            copyBtn.innerHTML = originalText;
+                            copyBtn.style.background = '';
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        showError('复制失败: ' + err.message);
+                    });
+            }
+            
+            // 清空结果
+            function clearResults() {
+                ipInput.value = '';
+                ipDisplay.classList.remove('active');
+                errorMessage.classList.remove('active');
+                loader.classList.remove('active');
+            }
+            
+            // 事件监听
+            queryBtn.addEventListener('click', () => {
+                const ip = ipInput.value.trim();
+                queryIp(ip);
+            });
+            
+            myIpBtn.addEventListener('click', () => {
+                ipInput.value = '';
+                queryIp();
+            });
+            
+            clearBtn.addEventListener('click', clearResults);
+            
+            copyBtn.addEventListener('click', copyIpInfo);
+            
+            // 按Enter键查询
+            ipInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    queryBtn.click();
+                }
+            });
+            
+            // 页面加载时查询本机IP
+            queryIp();
         });
     </script>
 </body>
